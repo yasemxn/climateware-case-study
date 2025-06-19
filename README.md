@@ -16,31 +16,7 @@ All responses include structured recommendations and a GPT-4o-generated expert e
 
 ---
 
-## 🛠️ Tech Stack
-
-- **FastAPI** – Lightweight backend framework
-- **Python 3.10+**
-- **Azure OpenAI GPT-4o** – for summarizing and enhancing recommendations
-- **Static JSON** – Simulated dummy data
-
----
-
-## 📁 Project Structure
-
-climateware-case/
-├── app/
-│ ├── main.py # FastAPI app entry
-│ ├── endpoints.py # API logic
-│ ├── utils.py # GPT call logic
-│ └── dummy_data.json # Static emission activity data
-├── .env # Azure OpenAI credentials
-├── requirements.txt
-└── README.md
-
-
----
-
-## 🧪 How to Run
+## How to Run
 
 ### 1. Clone this repo
 ```bash
