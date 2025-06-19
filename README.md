@@ -2,7 +2,7 @@
 
 For the position Junior AI Engineer case study. A system was developed to simulate an AI-based system that analyses carbon-emitting activities and provides customised emission reduction strategies using static JSON data and Azure OpenAI GPT-4o.
 
-## 🚀 Project Overview
+## Project Overview
 
 The system exposes two FastAPI endpoints:
 
@@ -23,18 +23,19 @@ All responses include structured recommendations and a GPT-4o-generated expert e
 git clone https://github.com/your-username/climateware-case.git
 cd climateware-case
 
+```
 
 ### 2. Create and activate virtual environment
 
 python -m venv venv
-source venv/bin/activate        # Mac/Linux
-.\venv\Scripts\activate         # Windows
+source venv/bin/activate        # For Mac/Linux
+.\venv\Scripts\activate         # For Windows
 
 ### 3. Install dependencies
 
 pip install -r requirements.txt
 
-### 4. Create .env file
+### 4. Create an .env file
 
 AZURE_OPENAI_API_KEY=your_api_key
 AZURE_OPENAI_ENDPOINT=https://your-resource-name.openai.azure.com/
@@ -47,7 +48,7 @@ uvicorn app.main:app --reload
 
 ##  API Reference
  POST /multi-activity-recommendations
- # Request Body:
+ #### Request Body:
  {
   "activities": [
     {
@@ -59,28 +60,24 @@ uvicorn app.main:app --reload
   "maxRecommendationAmount": 2
 }
 
-# Response:
+ #### Response:
 
 - A list of up to N recommendations
 - A GPT summary of emission strategies
 
  POST /single-activity-recommendation
- # Request Body:
+ #### Request Body:
  {
   "id": "uuid-2",
   "name": "Diesel",
   "recommendationHistory": ["Replace diesel generators with solar PV"]
 }
- # Response: 
+  #### Response: 
  - A new recommendation not included in history
  - A GPT-generated explanation
 
 ### GPT-4o Integration
-- The GPT model is used to:
-    * Enrich recommendations with insights
-    * Generate new suggestions
-    * Provide strategy summaries
-    * OpenAI SDK is integrated via Azure endpoint and authenticated using .env config.
+- The GPT model is used to enrich recommendations with insights, generate new suggestions, provide strategy summaries and OpenAI SDK is integrated via Azure endpoint and authenticated using .env config.
 
 # NOTES:
 - The system uses static data from dummy_data.json — no live API or DB.
@@ -90,11 +87,8 @@ uvicorn app.main:app --reload
 # DELIVERABLES:
 
  Fully working FastAPI backend
-
  Two structured endpoints
-
  GPT-4o integration via Azure OpenAI
-
  Static dummy data usage
 
  Full README documentation
