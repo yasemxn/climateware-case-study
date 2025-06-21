@@ -79,6 +79,32 @@ uvicorn app.main:app --reload
 ### GPT-4o Integration
 - The GPT model is used to enrich recommendations with insights, generate new suggestions, provide strategy summaries and OpenAI SDK is integrated via Azure endpoint and authenticated using .env config.
 
+
+# Revision Notes
+
+As per the feedback received from Climateware, the following enhancements and fixes were applied:
+
+ ### 1. Improved GPT Summary Structure
+    Replaced generic GPT responses with structured, ranked, and reasoned summaries.
+
+The smart_summary now highlights priority, impact, feasibility, and justification for each recommendation in markdown format.
+
+ ### 2. Ranking Logic Added
+ Implemented a custom ranking algorithm based on:
+ * estimatedReductionPercentage (impact), feasibilityScore (feasibility), and cost (inverted).
+ Summary now presents recommendations in ranked order with clearly stated rationale.
+
+### Single Activity Summary Enhancements
+
+If only one recommendation is returned, the GPT output presents a detailed evaluation, listing:
+- strengths,
+- - weaknesses,
+  - and improvement opportunities.
+
+### Error Handling & API Fixes
+
+Resolved previous internal server error due to build_reasoning_prompt not being defined. Implemented proper 404 and 500 response messages for edge cases.
+
 # NOTES:
 - The system uses static data from dummy_data.json — no live API or DB.
 - GPT logic is isolated in utils.py and can be easily swapped with other LLMs or backends.
