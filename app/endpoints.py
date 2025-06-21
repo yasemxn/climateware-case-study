@@ -2,7 +2,7 @@ from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 from typing import List, Dict
 import json
-from .utils import ask_gpt
+from .utils import ask_gpt, build_reasoning_prompt, build_single_reasoning_prompt
 
 router = APIRouter()
 
@@ -41,6 +41,7 @@ def multi_activity_recommendations(request: MultiActivityRequest):
     if not results:
         raise HTTPException(status_code=404, detail="ERR_NO_ACTIVITY")
 
+    # remove duplicates
     seen = set()
     unique_results = []
     for item in results:
@@ -51,15 +52,16 @@ def multi_activity_recommendations(request: MultiActivityRequest):
         if len(unique_results) >= request.maxRecommendationAmount:
             break
 
-    prompt = f"Given these activities: {[a.name for a in request.activities]}, suggest actions to reduce carbon emissions."
-    gpt_reply = ask_gpt(prompt)
+    # assess with gpt
+    prompt = build_reasoning_prompt(unique_results)
+    smart_summary = ask_gpt(prompt)
 
     return {
         "recommendations": unique_results,
-        "gpt_summary": gpt_reply
+        "smart_summary": smart_summary
     }
-
 # Second Endpoint: Single Activity
+
 @router.post("/single-activity-recommendation")
 def single_activity_recommendation(request: SingleActivityRequest):
     matches = [
@@ -75,10 +77,11 @@ def single_activity_recommendation(request: SingleActivityRequest):
     if not new_recs:
         raise HTTPException(status_code=404, detail="No new recommendations available.")
 
-    prompt = f"Give a unique recommendation for reducing carbon emissions for activity '{request.name}' excluding: {request.recommendationHistory}"
-    gpt_reply = ask_gpt(prompt)
+    selected_rec = new_recs[0] 
+    prompt = build_single_reasoning_prompt(request.name, selected_rec)
+    smart_summary = ask_gpt(prompt)
 
     return {
-        "newRecommendations": new_recs,
-        "gpt_summary": gpt_reply
+        "newRecommendations": [selected_rec],
+        "smart_summary": smart_summary
     }
